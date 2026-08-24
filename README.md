@@ -1,64 +1,69 @@
-# ChessAI
+# ♟️ ChessAI: Web Tabanlı Yapay Zeka Satranç Deneyimi
 
-ChessAI, ASP.NET Core MVC kullanılarak geliştirilmiş web tabanlı bir satranç uygulamasıdır.
+**ChessAI**, kullanıcıların doğrudan tarayıcı üzerinden dünyanın en güçlü ve popüler satranç motorlarından biri olan **Stockfish**'e karşı mücadele edebildiği, **ASP.NET Core MVC** mimarisiyle geliştirilmiş modern bir satranç uygulamasıdır. 
 
-Uygulamada kullanıcı, ekrandaki satranç tahtası üzerinden Stockfish satranç motoruna karşı oynar. Kullanıcının yaptığı hamle sonrasında mevcut oyun durumu FEN formatında hazırlanır ve C# tarafına gönderilir. Controller üzerinden Stockfish çalıştırılarak en uygun hamle alınır ve AI'ın hamlesi tekrar satranç tahtasında gösterilir.
+Kullanıcı dostu arayüzü ve güçlü arka plan mimarisi sayesinde, tahtadaki her hamleniz sunucu tarafında milisaniyeler içinde analiz edilir ve yapay zekanın karşı hamlesi akıcı bir şekilde ekrana yansır.
 
-## Kullanılan Teknolojiler
+---
 
-- C#
-- ASP.NET Core MVC
-- HTML
-- CSS
-- JavaScript
-- Bootstrap
-- Stockfish Chess Engine
+## 🚀 Projenin Çalışma Mantığı ve Veri Akışı
 
-## Projenin Çalışma Mantığı
+Sistem, istemci (tarayıcı) ile sunucu arasında kusursuz işleyen asenkron bir iletişim üzerine inşa edilmiştir:
 
-Kullanıcının yaptığı hamle JavaScript tarafından algılanır.
-Güncel satranç pozisyonu FEN formatına dönüştürülür ve `ChessController` içerisindeki API'ye gönderilir.
-Controller, `StockfishEngine` sınıfını kullanarak Stockfish'i çalıştırır. Stockfish pozisyonu analiz eder ve en uygun hamleyi belirler.
-AI'ın hamlesi JavaScript'e gönderilir ve satranç tahtasında uygulanır.
-```text
-Kullanıcı hamlesi
-       ↓
-JavaScript
-       ↓
-FEN
-       ↓
-ChessController
-       ↓
-Stockfish
-       ↓
-AI hamlesi
-       ↓
-Satranç tahtası
-```
-## Proje Yapısı
-Controllers → Kullanıcı isteklerini ve AI hamlelerini yönetir.
-Models → Stockfish ile iletişimi sağlayan sınıfları içerir.
-Views → Uygulamanın web arayüzünü içerir.
-wwwroot → CSS, JavaScript ve görsel dosyalarını içerir.
-Engines → Stockfish motorunun bulunduğu klasördür.
+1. **Hamle Algılama:** Kullanıcının satranç tahtası üzerinde yaptığı fiziksel hamle, JavaScript tarafından anında yakalanır.
+2. **FEN Dönüşümü:** Tahtanın o anki güncel dizilimi, evrensel satranç notasyonu olan **FEN (Forsyth-Edwards Notation)** formatına çevrilerek paketlenir.
+3. **API İletişimi:** Elde edilen FEN verisi, sunucu tarafındaki `ChessController` uç noktasına (endpoint) gönderilir.
+4. **Motor Analizi:** Controller, `StockfishEngine` sınıfını tetikleyerek pozisyonu Stockfish motoruna besler. Motor derinlemesine bir analiz yaparak en optimal hamleyi hesaplar.
+5. **AI Hamlesi:** Yapay zekanın kararı tekrar istemciye (JavaScript) döndürülür ve tahtada otomatik olarak oynanır.
 
-## Kurulum
-Projeyi GitHub üzerinden indirin:
+**Sistem Akış Şeması:**
+> Kullanıcı Hamlesi ➔ `JavaScript` ➔ `FEN Verisi` ➔ `ChessController` ➔ `Stockfish Engine` ➔ `AI Hamlesi` ➔ Satranç Tahtası
+
+---
+
+## 💻 Kullanılan Teknolojiler
+
+Proje, hem front-end hem de back-end tarafında güncel teknolojiler harmanlanarak geliştirilmiştir:
+
+* **Back-end:** C#, ASP.NET Core MVC
+* **Satranç Motoru:** Stockfish Chess Engine
+* **Front-end:** HTML5, CSS3, JavaScript
+* **Tasarım / UI:** Bootstrap
+
+---
+
+## 📂 Proje Yapısı
+
+MVC mimarisine uygun olarak organize edilen proje dizini şu şekildedir:
+
+* **`Controllers/`** ➔ Kullanıcı isteklerini karşılayan ve AI entegrasyonunu yöneten kontrolcüler.
+* **`Models/`** ➔ Stockfish ile iletişimi (process yönetimi) sağlayan motor sınıfları.
+* **`Views/`** ➔ Kullanıcının etkileşime girdiği dinamik web arayüzleri.
+* **`wwwroot/`** ➔ Projeye ait statik dosyalar (CSS, JavaScript, satranç taşlarının görselleri).
+* **`Engines/`** ➔ Stockfish motorunun `.exe` dosyasını barındıran çekirdek klasör.
+
+---
+
+## ⚙️ Kurulum ve Çalıştırma
+
+**1. Projeyi Klonlayın:**
 ```bash
-git clone https://github.com/ikbaltorun/ChessAI.git
+git clone [https://github.com/ikbaltorun/ChessAI.git](https://github.com/ikbaltorun/ChessAI.git)
 ```
-Daha sonra ChessAI.sln dosyasını Visual Studio ile açın.
 
-## Stockfish Kurulumu
+**2. Projeyi Açın:**
+İndirdiğiniz klasördeki ChessAI.sln dosyasını Visual Studio ile açın.
 
-Stockfish dosyası GitHub'a dosya boyutu nedeniyle eklenmemiştir.
-Stockfish'in resmi indirme sayfasından Windows için uygun sürümü indirin:
-[Stockfish resmi indirme sayfası](https://stockfishchess.org/download/)
-Windows x64 için AVX2 sürümü çoğu modern bilgisayar için önerilmektedir.
-İndirdiğiniz Stockfish çalıştırılabilir dosyasını şu klasöre koyun:
+**3. Stockfish Kurulumu (Önemli):**
+Dosya boyutu kısıtlamaları nedeniyle Stockfish motoru bu depoya (repository) dahil edilmemiştir. Projenin çalışabilmesi için:
+Stockfish Resmi İndirme Sayfasına gidin. [Stockfish Resmi İndirme Sayfası](https://stockfishchess.org/download/)
+Windows x64 için AVX2 sürümünü (çoğu modern bilgisayar için en performanslı olan) indirin.
+İndirdiğiniz .exe dosyasını proje dizininde şu yola yerleştirin:
 ChessAI -> Engines -> stockfish -> stockfish-windows-x86-64-avx2.exe
-Dosyanın adı, StockfishEngine.cs içerisindeki dosya adıyla aynı olmalıdır.
-Daha sonra projeyi Visual Studio üzerinden çalıştırabilirsiniz.
+(Not: Dosya adının StockfishEngine.cs içerisindeki tanımlamayla birebir aynı olduğundan emin olun.)
 
-### Geliştirici
+**4. Çalıştırın:**
+Tüm adımları tamamladıktan sonra projeyi Visual Studio üzerinden (F5) başlatarak hemen oynamaya başlayabilirsiniz!
+
+👨‍💻 Geliştirici
 *İkbal Torun*
