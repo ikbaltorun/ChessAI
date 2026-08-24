@@ -48,7 +48,7 @@ MVC mimarisine uygun olarak organize edilen proje dizini şu şekildedir:
 
 **1. Projeyi Klonlayın:**
 ```bash
-git clone [https://github.com/ikbaltorun/ChessAI.git](https://github.com/ikbaltorun/ChessAI.git)
+git clone https://github.com/ikbaltorun/ChessAI.git
 ```
 
 **2. Projeyi Açın:**
